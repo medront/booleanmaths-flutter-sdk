@@ -1,7 +1,9 @@
 name: booleanmaths_flutter_sdk
 description: "Flutter plugin for the BooleanMaths SDK — user event tracking and attribution."
-version: 0.0.1
+version: 0.1.0
 homepage: https://booleanmaths.com
+repository: https://github.com/medront/booleanmaths-flutter-sdk
+issue_tracker: https://github.com/medront/booleanmaths-flutter-sdk/issues
 
 environment:
   sdk: ^3.13.0

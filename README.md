@@ -26,10 +26,15 @@ shared UI code once and run it everywhere.
 
 ## Install
 
+```bash
+flutter pub add booleanmaths_flutter_sdk
+```
+
+or add it by hand:
+
 ```yaml
 dependencies:
-  booleanmaths_flutter_sdk:
-    path: ../booleanmaths-flutter-sdk # or a git/hosted reference
+  booleanmaths_flutter_sdk: ^0.1.0
 ```
 
 The native SDK is pulled from Maven Central automatically; the host app needs no
@@ -56,8 +61,13 @@ class and no conflict.
 
 ```dart
 import 'package:booleanmaths_flutter_sdk/booleanmaths_flutter_sdk.dart';
+import 'package:flutter/material.dart';
 
 Future<void> main() async {
+  // Required when initializing before runApp(): the plugin talks over a
+  // MethodChannel, which needs the bindings in place first.
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Initialize once, before tracking anything.
   await BooleanMaths.initialize(
     apiKey: 'your-api-key',

@@ -12,7 +12,7 @@ owns all buffering, persistence and syncing.
 | Repository / folder | `booleanmaths-flutter-sdk` |
 | Dart package | `booleanmaths_flutter_sdk` |
 | Android package | `com.booleanmaths.flutter` |
-| Native dependency | `com.booleanmaths:bm-sdk:1.0.1` |
+| Native dependency | `com.booleanmaths:bm-sdk:1.0.5` |
 
 ## Platform support
 
@@ -34,6 +34,23 @@ dependencies:
 
 The native SDK is pulled from Maven Central automatically; the host app needs no
 extra Gradle configuration.
+
+### Calling the native SDK directly
+
+The plugin declares `bm-sdk` as `implementation`, so the artifact ships in your
+APK but its classes are not on your app module's *compile* classpath. Everything
+the plugin exposes is reachable from Dart, so this is only relevant if you want
+to call `BooleanMathsSDK` from your own Kotlin/Java — for example from a custom
+`Application` class. In that case declare it yourself in `app/build.gradle.kts`:
+
+```kotlin
+dependencies {
+    implementation("com.booleanmaths:bm-sdk:1.0.5")
+}
+```
+
+Gradle resolves both declarations to a single artifact, so there is no duplicate
+class and no conflict.
 
 ## Usage
 

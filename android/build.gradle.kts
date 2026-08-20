@@ -73,9 +73,16 @@ kotlin {
 
 dependencies {
     // The native BooleanMaths Android SDK that this plugin wraps.
-    // `api` rather than `implementation` so a host app can still call
-    // BooleanMathsSDK directly from its own Kotlin/Java code when it needs to.
-    api("com.booleanmaths:bm-sdk:1.0.1")
+    //
+    // `implementation`, not `api`: bm-sdk is an internal detail. Nothing in this
+    // plugin's public surface names a bm-sdk type — every value crossing to Dart
+    // is marshalled to a message-codec primitive — so consumers have no reason to
+    // compile against it. The artifact still ships in the host APK either way.
+    //
+    // A host app that wants to call BooleanMathsSDK directly from Kotlin/Java
+    // should declare `implementation("com.booleanmaths:bm-sdk:1.0.5")` itself.
+    // Widening this to `api` later is non-breaking; narrowing it is not.
+    implementation("com.booleanmaths:bm-sdk:1.0.5")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")

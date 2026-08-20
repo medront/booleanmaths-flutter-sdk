@@ -79,9 +79,8 @@ dependencies {
     // is marshalled to a message-codec primitive — so consumers have no reason to
     // compile against it. The artifact still ships in the host APK either way.
     //
-    // A host app that wants to call BooleanMathsSDK directly from Kotlin/Java
-    // should declare `implementation("com.booleanmaths:bm-sdk:1.0.5")` itself.
-    // Widening this to `api` later is non-breaking; narrowing it is not.
+    // Widening this to `api` later is non-breaking; narrowing it is not — so it
+    // stays narrow until something in the public surface actually needs it.
     implementation("com.booleanmaths:bm-sdk:1.0.5")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")

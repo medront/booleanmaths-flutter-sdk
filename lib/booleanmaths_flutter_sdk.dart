@@ -46,6 +46,16 @@ abstract final class BooleanMaths {
     );
   }
 
+  /// Manually tracks notification clicks/intents.
+  ///
+  /// Reconstructs the intent payload on the native Android side to call
+  /// `BooleanMathsSDK.handleNotificationIntent`. Pass the raw data map payload.
+  static Future<void> handleNotificationIntent(Map<String, dynamic> data) {
+    return BooleanMathsFlutterSdkPlatform.instance.handleNotificationIntent(
+      data,
+    );
+  }
+
   /// The host OS version, e.g. `Android 14`. Handy for verifying that the
   /// method channel is wired up. Returns null where unimplemented.
   static Future<String?> getPlatformVersion() {

@@ -65,7 +65,9 @@ class _MyAppState extends State<MyApp> {
       if (mounted) setState(() => _log.insert(0, '✓ $label'));
       return 'ok';
     } on PlatformException catch (e) {
-      if (mounted) setState(() => _log.insert(0, '✗ $label — ${e.code}: ${e.message}'));
+      if (mounted) {
+        setState(() => _log.insert(0, '✗ $label — ${e.code}: ${e.message}'));
+      }
       return 'error';
     }
   }
@@ -92,7 +94,9 @@ class _MyAppState extends State<MyApp> {
               Text(
                 _initialized ? 'SDK initialized' : 'SDK not initialized',
                 style: TextStyle(
-                  color: _initialized ? Colors.green.shade700 : Colors.red.shade700,
+                  color: _initialized
+                      ? Colors.green.shade700
+                      : Colors.red.shade700,
                   fontWeight: .bold,
                 ),
               ),
@@ -118,13 +122,14 @@ class _MyAppState extends State<MyApp> {
                     child: const Text('AddToCart'),
                   ),
                   FilledButton(
-                    onPressed: () => _trackEvent('CheckoutFinished', <String, dynamic>{
-                      'order_id': 'ORD-1001',
-                      'value': 1299.0,
-                      'currency': 'INR',
-                      'items': <String>['ABC-1', 'XYZ-9'],
-                      'payment_method': 'upi',
-                    }),
+                    onPressed: () =>
+                        _trackEvent('CheckoutFinished', <String, dynamic>{
+                          'order_id': 'ORD-1001',
+                          'value': 1299.0,
+                          'currency': 'INR',
+                          'items': <String>['ABC-1', 'XYZ-9'],
+                          'payment_method': 'upi',
+                        }),
                     child: const Text('CheckoutFinished'),
                   ),
                 ],
@@ -133,16 +138,19 @@ class _MyAppState extends State<MyApp> {
               const Divider(),
               Expanded(
                 child: _log.isEmpty
-                    ? const Center(child: Text('Tap a button to send an event.'))
+                    ? const Center(
+                        child: Text('Tap a button to send an event.'),
+                      )
                     : ListView.builder(
                         itemCount: _log.length,
-                        itemBuilder: (BuildContext context, int index) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Text(
-                            _log[index],
-                            style: const TextStyle(fontFamily: 'monospace'),
-                          ),
-                        ),
+                        itemBuilder: (BuildContext context, int index) =>
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Text(
+                                _log[index],
+                                style: const TextStyle(fontFamily: 'monospace'),
+                              ),
+                            ),
                       ),
               ),
             ],

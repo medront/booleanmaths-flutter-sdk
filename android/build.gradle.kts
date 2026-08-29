@@ -81,7 +81,7 @@ dependencies {
     //
     // Widening this to `api` later is non-breaking; narrowing it is not — so it
     // stays narrow until something in the public surface actually needs it.
-    implementation("com.booleanmaths:bm-sdk:1.0.5")
+    implementation("com.booleanmaths:bm-sdk:1.0.8")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")

@@ -12,7 +12,7 @@ owns all buffering, persistence and syncing.
 | Repository / folder | `booleanmaths-flutter-sdk` |
 | Dart package | `booleanmaths_flutter_sdk` |
 | Android package | `com.booleanmaths.flutter` |
-| Native dependency | `com.booleanmaths:bm-sdk:1.0.5` |
+| Native dependency | `com.booleanmaths:bm-sdk:1.0.8` |
 
 ## Platform support
 
@@ -34,7 +34,7 @@ or add it by hand:
 
 ```yaml
 dependencies:
-  booleanmaths_flutter_sdk: ^0.1.0
+  booleanmaths_flutter_sdk: ^0.1.1
 ```
 
 The native SDK is pulled from Maven Central automatically; the host app needs no
@@ -87,7 +87,23 @@ nothing to flush by hand.
 |---|---|
 | `BooleanMaths.initialize(apiKey:, pixelId:)` | `BooleanMathsSDK.initialize(context, apiKey, pixelId)` |
 | `BooleanMaths.trackEvent(name, properties:)` | `BooleanMathsSDK.trackEvent(name, properties)` |
+| `BooleanMaths.handleNotificationIntent(data)` | `BooleanMathsSDK.handleNotificationIntent(intent)` |
 | `BooleanMaths.getPlatformVersion()` | `Build.VERSION.RELEASE` (channel smoke test) |
+
+`initialize` also starts the native SDK's own automatic tracking — it records an
+`app_opened` event on every launch and a `FirstOpen` event, with attribution
+data, on the first one. Those arrive without any `trackEvent` call of your own,
+so avoid hand-rolling a duplicate app-open event.
+
+To attribute a notification tap, hand the payload to
+`handleNotificationIntent` — the native side rebuilds it as an `Intent`:
+
+```dart
+await BooleanMaths.handleNotificationIntent(message.data);
+```
+
+Only flat `String`, `bool`, `int` and `double` entries become intent extras;
+nested maps and lists are skipped, so flatten anything the SDK needs to read.
 
 `properties` accepts any value the platform message codec supports — `String`,
 `num`, `bool`, `List`, `Map`. Entries with a null value, and non-string keys, are

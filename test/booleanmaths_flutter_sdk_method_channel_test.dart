@@ -44,7 +44,11 @@ void main() {
   test('trackEvent forwards the event name and properties', () async {
     await platform.trackEvent(
       'add_to_cart',
-      properties: <String, dynamic>{'sku': 'ABC-1', 'value': 499.0, 'new': true},
+      properties: <String, dynamic>{
+        'sku': 'ABC-1',
+        'value': 499.0,
+        'new': true,
+      },
     );
 
     expect(log, <Matcher>[
@@ -71,6 +75,21 @@ void main() {
         arguments: <String, dynamic>{
           'eventName': 'app_open',
           'properties': <String, dynamic>{},
+        },
+      ),
+    ]);
+  });
+
+  test('handleNotificationIntent forwards the data payload', () async {
+    await platform.handleNotificationIntent(<String, dynamic>{
+      'click_action': 'open',
+    });
+
+    expect(log, <Matcher>[
+      isMethodCall(
+        'handleNotificationIntent',
+        arguments: <String, dynamic>{
+          'data': <String, dynamic>{'click_action': 'open'},
         },
       ),
     ]);

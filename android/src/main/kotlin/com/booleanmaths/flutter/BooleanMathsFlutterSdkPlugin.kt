@@ -38,6 +38,7 @@ class BooleanMathsFlutterSdkPlugin :
         when (call.method) {
             "initialize" -> initialize(call, result)
             "trackEvent" -> trackEvent(call, result)
+            "handleNotificationIntent" -> handleNotificationIntent(call, result)
             "getPlatformVersion" -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
             else -> result.notImplemented()
         }
@@ -64,6 +65,7 @@ class BooleanMathsFlutterSdkPlugin :
         }
 
         try {
+            BooleanMathsSDK.setWrapperConfig("flutter", "0.1.2")
             BooleanMathsSDK.initialize(applicationContext, apiKey, pixelId)
             result.success(null)
         } catch (e: Throwable) {
@@ -86,6 +88,29 @@ class BooleanMathsFlutterSdkPlugin :
             result.success(null)
         } catch (e: Throwable) {
             result.error(ERROR_SDK, "BooleanMathsSDK.trackEvent failed: ${e.message}", null)
+        }
+    }
+
+    private fun handleNotificationIntent(
+        call: MethodCall,
+        result: Result
+    ) {
+        val data = call.argument<Map<String, Any>>("data") ?: emptyMap()
+        try {
+            val intent = android.content.Intent()
+            for ((key, value) in data) {
+                when (value) {
+                    is String -> intent.putExtra(key, value)
+                    is Boolean -> intent.putExtra(key, value)
+                    is Int -> intent.putExtra(key, value)
+                    is Long -> intent.putExtra(key, value)
+                    is Double -> intent.putExtra(key, value)
+                }
+            }
+            BooleanMathsSDK.handleNotificationIntent(intent)
+            result.success(null)
+        } catch (e: Throwable) {
+            result.error(ERROR_SDK, "BooleanMathsSDK.handleNotificationIntent failed: ${e.message}", null)
         }
     }
 

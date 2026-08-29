@@ -41,6 +41,13 @@ abstract class BooleanMathsFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('trackEvent() has not been implemented.');
   }
 
+  /// See [BooleanMaths.handleNotificationIntent].
+  Future<void> handleNotificationIntent(Map<String, dynamic> data) {
+    throw UnimplementedError(
+      'handleNotificationIntent() has not been implemented.',
+    );
+  }
+
   /// See [BooleanMaths.getPlatformVersion].
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('getPlatformVersion() has not been implemented.');

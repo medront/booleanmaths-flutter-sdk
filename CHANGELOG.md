@@ -1,3 +1,20 @@
+## 0.1.2
+
+* Upgraded native BooleanMaths Android SDK dependency to `1.0.8`.
+  It adds automatic tracking: an `app_opened` event on every launch and a
+  `FirstOpen` event, with attribution data, on the first one. These arrive
+  without any `trackEvent` call of your own — check for a hand-rolled app-open
+  event that would now be a duplicate.
+* Documented `handleNotificationIntent` in the README, including which payload
+  entries survive the crossing to Android (flat `String`, `bool`, `int` and
+  `double` only).
+
+## 0.1.1
+
+* Upgraded native BooleanMaths Android SDK dependency to `1.0.7`.
+* Added `BooleanMaths.handleNotificationIntent` to support manual tracking of notification clicks and intents on Android.
+* Automatically registers SDK wrapper configuration (identifying as `flutter` version `0.1.1`) during initialization.
+
 ## 0.1.0
 
 No API changes — a documentation fix plus a version-range correction.

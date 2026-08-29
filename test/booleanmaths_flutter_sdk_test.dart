@@ -34,6 +34,12 @@ class FakeBooleanMathsFlutterSdkPlatform
   }
 
   @override
+  Future<void> handleNotificationIntent(Map<String, dynamic> data) async {
+    calls.add('handleNotificationIntent');
+    properties = data;
+  }
+
+  @override
   Future<String?> getPlatformVersion() async {
     calls.add('getPlatformVersion');
     return '42';
@@ -56,7 +62,10 @@ void main() {
   });
 
   test('$MethodChannelBooleanMathsFlutterSdk is the default instance', () {
-    expect(initialPlatform, isInstanceOf<MethodChannelBooleanMathsFlutterSdk>());
+    expect(
+      initialPlatform,
+      isInstanceOf<MethodChannelBooleanMathsFlutterSdk>(),
+    );
   });
 
   test('initialize passes the credentials through', () async {
@@ -78,11 +87,23 @@ void main() {
     expect(fakePlatform.properties, <String, dynamic>{'value': 1299.0});
   });
 
-  test('trackEvent without properties leaves them null for the platform', () async {
-    await BooleanMaths.trackEvent('app_open');
+  test(
+    'trackEvent without properties leaves them null for the platform',
+    () async {
+      await BooleanMaths.trackEvent('app_open');
 
-    expect(fakePlatform.eventName, 'app_open');
-    expect(fakePlatform.properties, isNull);
+      expect(fakePlatform.eventName, 'app_open');
+      expect(fakePlatform.properties, isNull);
+    },
+  );
+
+  test('handleNotificationIntent passes the payload through', () async {
+    await BooleanMaths.handleNotificationIntent(<String, dynamic>{
+      'click_action': 'open',
+    });
+
+    expect(fakePlatform.calls, <String>['handleNotificationIntent']);
+    expect(fakePlatform.properties, <String, dynamic>{'click_action': 'open'});
   });
 
   test('getPlatformVersion is delegated', () async {

@@ -29,27 +29,35 @@ abstract class BooleanMathsFlutterSdkPlatform extends PlatformInterface {
   }
 
   /// See [BooleanMaths.initialize].
-  Future<void> initialize({required String apiKey, required String pixelId}) {
+  Future<void> initialize({
+    required String apiKey,
+    required String pixelId,
+    required bool isDebug,
+    required String wrapperVersion,
+  }) {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
   /// See [BooleanMaths.trackEvent].
   Future<void> trackEvent(
     String eventName, {
-    Map<String, dynamic>? properties,
+    Map<String, Object?>? properties,
   }) {
     throw UnimplementedError('trackEvent() has not been implemented.');
   }
 
-  /// See [BooleanMaths.handleNotificationIntent].
-  Future<void> handleNotificationIntent(Map<String, dynamic> data) {
-    throw UnimplementedError(
-      'handleNotificationIntent() has not been implemented.',
-    );
+  /// See [BooleanMaths.handleIntent].
+  Future<void> handleIntent() {
+    throw UnimplementedError('handleIntent() has not been implemented.');
   }
 
-  /// See [BooleanMaths.getPlatformVersion].
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('getPlatformVersion() has not been implemented.');
+  /// See [BooleanMaths.flush].
+  Future<bool> flush({required Duration timeout}) {
+    throw UnimplementedError('flush() has not been implemented.');
+  }
+
+  /// See [BooleanMaths.getHelloMessage].
+  Future<String?> getHelloMessage() {
+    throw UnimplementedError('getHelloMessage() has not been implemented.');
   }
 }

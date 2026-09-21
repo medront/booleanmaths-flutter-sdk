@@ -1,0 +1,29 @@
+PODS:
+  - booleanmaths_flutter_sdk (0.2.0):
+    - BooleanMathsSDK (~> 1.2)
+    - Flutter
+  - BooleanMathsSDK (1.2.0)
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - booleanmaths_flutter_sdk (from `.symlinks/plugins/booleanmaths_flutter_sdk/ios`)
+  - Flutter (from `Flutter`)
+
+SPEC REPOS:
+  trunk:
+    - BooleanMathsSDK
+
+EXTERNAL SOURCES:
+  booleanmaths_flutter_sdk:
+    :path: ".symlinks/plugins/booleanmaths_flutter_sdk/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  booleanmaths_flutter_sdk: 7c29f9e23aae59c76562ce68cbb6faad197f0290
+  BooleanMathsSDK: ba1675cc34c65ca92b571e1f6b10023c0a48e603
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+
+PODFILE CHECKSUM: 3ba3a73b1b12adcf321a227a745625fe0888cc82
+
+COCOAPODS: 1.16.2

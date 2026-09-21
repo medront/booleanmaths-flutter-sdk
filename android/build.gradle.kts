@@ -81,7 +81,11 @@ dependencies {
     //
     // Widening this to `api` later is non-breaking; narrowing it is not — so it
     // stays narrow until something in the public surface actually needs it.
-    implementation("com.booleanmaths:bm-sdk:1.0.5")
+    //
+    // 1.0.12 is the floor, not merely the newest: 1.0.9 fixed a spurious
+    // NotificationClick emitted on an ordinary launcher tap, and 1.0.10 added
+    // the 4-argument initialize this plugin calls to pass `isDebug`.
+    implementation("com.booleanmaths:bm-sdk:1.0.12")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")

@@ -18,11 +18,16 @@ dependencies:
     sdk: flutter
 
   booleanmaths_flutter_sdk:
-    # When depending on this package from a real application you should use:
-    #   booleanmaths_flutter_sdk: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
+    # Path dependency on purpose: the example exists to test the working tree,
+    # so unreleased changes — the Dart API, the Kotlin plugin, the podspec,
+    # the bm-sdk version — are exercised here before anything is published.
+    # `example/integration_test` guards this repo only while this stays a path.
+    #
+    # To check what an integrator actually receives from pub.dev, make a
+    # throwaway app instead of editing this file:
+    #
+    #   flutter create /tmp/bmtest && cd /tmp/bmtest
+    #   flutter pub add booleanmaths_flutter_sdk
     path: ../
 
   # The following adds the Cupertino Icons font to your application.

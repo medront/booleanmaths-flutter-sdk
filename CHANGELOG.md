@@ -1,3 +1,56 @@
+## 0.2.1
+
+* Upgraded the Android SDK to `com.booleanmaths:bm-sdk:1.0.13`.
+
+  **Fixes events silently vanishing from release builds.** Up to 1.0.12 the AAR
+  shipped an empty `proguard.txt`, so it contributed no consumer keep rules. A
+  host app building release with `isMinifyEnabled = true` let R8 obfuscate
+  `BMEvent`'s field names — and Gson uses those field names verbatim as the JSON
+  keys. Events were still queued, still uploaded, and the server still answered
+  `200`; the payload just arrived with keys like `{"a":…,"b":…}` and nothing
+  appeared in reporting. Debug builds were unaffected, which made it look like a
+  release-only networking problem.
+
+  1.0.13 ships real consumer rules (`-keep class com.booleanmaths.sdk.** { *; }`
+  plus `-keepattributes Signature`), and consumer rules apply automatically — so
+  host apps need no `proguard-rules.pro` changes of their own. If you added keep
+  rules for `com.booleanmaths.sdk` as a workaround, they are now redundant but
+  harmless.
+
+  No API change; nothing in your code needs updating.
+
+* **Also fixed a second, independent release-build failure** that `bm-sdk`
+  1.0.13 does *not* address. The plugin now ships its own consumer ProGuard
+  rules (`android/consumer-rules.pro`), applied to the host app automatically.
+
+  WorkManager instantiates `InputMerger` implementations reflectively through
+  their no-argument constructor. `androidx.work`'s own consumer rules keep the
+  classes but not their constructors, and R8 full mode — the default since
+  AGP 8 — removes an unreferenced constructor even from a kept class:
+
+  ```
+  E WM-InputMerger:   NoSuchMethodException: androidx.work.OverwritingInputMerger.<init> []
+  E WM-WorkerWrapper: Could not create Input Merger androidx.work.OverwritingInputMerger
+  ```
+
+  `WorkerWrapper` marks the work failed, so `EventWorker` never runs. Events
+  were persisted and never dispatched — and because SDK logging is gated on
+  `isDebug`, a release build reported nothing at all. Verified on a minified
+  release build: before the rule, dispatch never happened; after it,
+  `Worker result SUCCESS` and the queued backlog went out.
+
+  Note the two release-build bugs had different symptoms. The 1.0.12 Gson one
+  uploaded events successfully with unreadable keys; this one never uploaded at
+  all. Both looked like "release builds don't send events".
+
+### Known issue (upstream)
+
+* `bm-sdk` 1.0.13 reports `setup.sdk_version` as `"1.0.12"` — its `SDK_VERSION`
+  constant was not bumped with the release. Events from 1.0.13 are therefore
+  indistinguishable from 1.0.12 ones in reporting. Cosmetic on the device, but
+  it makes the broken-release-build population hard to identify server side.
+  Nothing in this plugin can override it.
+
 ## 0.2.0
 
 iOS is now implemented, and Android attribution actually works. Two breaking

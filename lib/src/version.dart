@@ -10,7 +10,7 @@
 /// the channel from Dart keeps one source of truth: the alternative is
 /// duplicating the version into `build.gradle.kts` and the podspec, where it
 /// silently drifts because nothing fails when it does.
-const String packageVersion = '0.2.0';
+const String packageVersion = '0.2.1';
 
 /// The wrapper type reported alongside [packageVersion].
 const String packageWrapperType = 'flutter';

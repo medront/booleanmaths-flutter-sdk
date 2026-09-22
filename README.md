@@ -11,7 +11,7 @@ persistence and syncing.
 |---|---|
 | Dart package | `booleanmaths_flutter_sdk` |
 | Android package | `com.booleanmaths.flutter` |
-| Android dependency | `com.booleanmaths:bm-sdk:1.0.12` (Maven Central) |
+| Android dependency | `com.booleanmaths:bm-sdk:1.0.13` (Maven Central) |
 | iOS dependency | `BooleanMathsSDK ~> 1.2` (CocoaPods Trunk) |
 
 ## Platform support
@@ -35,11 +35,26 @@ or add it by hand:
 
 ```yaml
 dependencies:
-  booleanmaths_flutter_sdk: ^0.2.0
+  booleanmaths_flutter_sdk: ^0.2.1
 ```
 
 **Android** needs no extra Gradle configuration; the native SDK comes from Maven
 Central automatically.
+
+That includes **release builds with `isMinifyEnabled`** — you need no ProGuard
+keep rules of your own. Two sets are applied automatically: `bm-sdk` 1.0.13's
+own consumer rules, and this plugin's (`android/consumer-rules.pro`), which
+keeps `androidx.work.InputMerger` constructors that R8 full mode would otherwise
+strip. Both were release-only failures that produced no error in a release
+build, for different reasons:
+
+| Missing rule | Symptom |
+|---|---|
+| `bm-sdk` ≤ 1.0.12 | Events uploaded and returned `200`, but field names were obfuscated into the JSON keys, so nothing was readable server side. |
+| `InputMerger` constructor | `EventWorker` failed to start, so events were persisted and never dispatched at all. |
+
+If you added keep rules for `com.booleanmaths.sdk` or `androidx.work` as a
+workaround, they are now redundant but harmless.
 
 **iOS requires CocoaPods.** `BooleanMathsSDK` is distributed as a CocoaPods-only
 vendored XCFramework, so this plugin ships a podspec and no `Package.swift`.

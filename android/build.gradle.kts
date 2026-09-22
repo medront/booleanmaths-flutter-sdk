@@ -46,6 +46,11 @@ android {
 
     defaultConfig {
         minSdk = 24
+
+        // Packaged into the AAR and applied to the host app's R8 run, so
+        // integrators need no ProGuard configuration of their own. See the file
+        // for what breaks without it.
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     testOptions {
@@ -82,10 +87,15 @@ dependencies {
     // Widening this to `api` later is non-breaking; narrowing it is not — so it
     // stays narrow until something in the public surface actually needs it.
     //
-    // 1.0.12 is the floor, not merely the newest: 1.0.9 fixed a spurious
-    // NotificationClick emitted on an ordinary launcher tap, and 1.0.10 added
-    // the 4-argument initialize this plugin calls to pass `isDebug`.
-    implementation("com.booleanmaths:bm-sdk:1.0.12")
+    // 1.0.13 is the floor, not merely the newest:
+    //  * 1.0.9  fixed a spurious NotificationClick on an ordinary launcher tap
+    //  * 1.0.10 added the 4-argument initialize this plugin calls for `isDebug`
+    //  * 1.0.13 ships consumer ProGuard rules. Before it, `proguard.txt` in the
+    //    AAR was empty, so a host app building release with `isMinifyEnabled`
+    //    let R8 obfuscate BMEvent's field names — which Gson uses verbatim as
+    //    JSON keys. Events still uploaded and still returned 200, but arrived
+    //    unreadable, so nothing showed up in reporting.
+    implementation("com.booleanmaths:bm-sdk:1.0.13")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")

@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
       () => BooleanMaths.initialize(
         apiKey: kApiKey,
         pixelId: kPixelId,
-        isDebug: kIsDebug,
+        isDebug: true,
       ),
     );
 
@@ -108,21 +108,21 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Future<void> _flush() async {
-    final bool flushed = await BooleanMaths.flush(
-      timeout: const Duration(seconds: 5),
-    );
-    if (!mounted) return;
-    setState(() {
-      _log.insert(
-        0,
-        flushed
-            ? '✓ flush — batch dispatched'
-            : 'ℹ flush — nothing dispatched '
-                  '(always the case on Android; events still sync via WorkManager)',
-      );
-    });
-  }
+  // Future<void> _flush() async {
+  //   final bool flushed = await BooleanMaths.flush(
+  //     timeout: const Duration(seconds: 5),
+  //   );
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _log.insert(
+  //       0,
+  //       flushed
+  //           ? '✓ flush — batch dispatched'
+  //           : 'ℹ flush — nothing dispatched '
+  //                 '(always the case on Android; events still sync via WorkManager)',
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +182,10 @@ class _MyAppState extends State<MyApp> {
                         }),
                     child: const Text('CheckoutFinished'),
                   ),
-                  OutlinedButton(
-                    onPressed: _flush,
-                    child: const Text('flush'),
-                  ),
+                  // OutlinedButton(
+                  //   onPressed: _flush,
+                  //   child: const Text('flush'),
+                  // ),
                   OutlinedButton(
                     onPressed: () =>
                         _guard('handleIntent', BooleanMaths.handleIntent),

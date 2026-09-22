@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'booleanmaths_flutter_sdk'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'Flutter plugin for the BooleanMaths SDK.'
   s.description      = <<-DESC
 Bridges the Dart BooleanMaths API onto the native BooleanMaths iOS SDK: event
